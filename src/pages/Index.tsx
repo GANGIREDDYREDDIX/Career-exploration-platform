@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Search, ArrowRight, Compass, BookOpen, GitBranch, Award } from "lucide-react";
+import { Search, ArrowRight, Compass, BookOpen, GitBranch, Award, Code, BarChart3, Zap, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Navbar from "@/components/layout/Navbar";
@@ -7,12 +7,19 @@ import Footer from "@/components/layout/Footer";
 import CareerCard from "@/components/career/CareerCard";
 import CategoryChip from "@/components/career/CategoryChip";
 import { careers, categories } from "@/data/mockData";
-import heroImage from "@/assets/hero-illustration.png";
 
 const steps = [
   { icon: Compass, title: "Explore Careers", desc: "Browse career categories and discover roles that match your interests." },
   { icon: GitBranch, title: "Map Your Path", desc: "Visualize pathways, sub-paths, and milestones for your chosen career." },
   { icon: BookOpen, title: "Start Learning", desc: "Access courses, certifications, and resources to build your skills." },
+];
+
+const floatingNodes = [
+  { icon: Code, label: "Frontend", x: "right-[8%]", y: "top-[15%]", color: "bg-primary/10 text-primary border-primary/20", delay: "0s" },
+  { icon: BarChart3, label: "Analytics", x: "right-[22%]", y: "top-[55%]", color: "bg-node-course-soft text-node-course border-node-course/20", delay: "0.5s" },
+  { icon: Award, label: "Certified", x: "right-[5%]", y: "top-[70%]", color: "bg-node-cert-soft text-node-cert border-node-cert/20", delay: "1s" },
+  { icon: Zap, label: "Skills", x: "right-[30%]", y: "top-[25%]", color: "bg-node-skill-soft text-node-skill border-node-skill/20", delay: "1.5s" },
+  { icon: Layers, label: "Product", x: "right-[15%]", y: "top-[42%]", color: "bg-node-pathway-soft text-node-pathway border-node-pathway/20", delay: "0.8s" },
 ];
 
 const Index = () => {
@@ -22,38 +29,100 @@ const Index = () => {
 
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="container relative z-10 py-20 lg:py-28">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            <div>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground">
-                <Award className="h-3.5 w-3.5 text-primary" />
-                5 career paths · 50+ resources
+        {/* Background grid pattern */}
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(hsl(var(--border))_1px,transparent_1px),linear-gradient(90deg,hsl(var(--border))_1px,transparent_1px)] bg-[size:64px_64px] opacity-40" />
+        {/* Gradient orbs */}
+        <div className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-primary/8 blur-3xl" />
+        <div className="pointer-events-none absolute -right-20 top-20 h-[400px] w-[400px] rounded-full bg-secondary/8 blur-3xl" />
+        <div className="pointer-events-none absolute bottom-0 left-1/3 h-[300px] w-[300px] rounded-full bg-accent/6 blur-3xl" />
+
+        <div className="container relative z-10 py-24 lg:py-32">
+          <div className="relative grid items-center gap-12 lg:grid-cols-2">
+            {/* Left content */}
+            <div className="max-w-xl">
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border bg-card/80 px-4 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm">
+                <span className="flex h-2 w-2 rounded-full bg-node-course animate-pulse" />
+                5 career paths · 50+ resources · Free to explore
               </div>
-              <h1 className="font-heading text-4xl font-bold leading-tight text-foreground sm:text-5xl lg:text-6xl">
-                Discover Your
-                <span className="block text-primary"> Career Path</span>
+              <h1 className="font-heading text-5xl font-bold leading-[1.08] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
+                Map your
+                <br />
+                <span className="relative inline-block">
+                  <span className="relative z-10 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+                    career path
+                  </span>
+                  <span className="absolute -bottom-1 left-0 h-3 w-full bg-primary/10 rounded-sm -skew-x-3" />
+                </span>
               </h1>
-              <p className="mt-5 max-w-lg text-lg text-muted-foreground">
-                Explore career pathways, map your skills, and find the courses and certifications you need to reach your goals.
+              <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
+                Explore roles, visualize pathways, and discover the exact courses and certifications you need — all in one interactive roadmap.
               </p>
-              <div className="mt-8 flex max-w-md gap-2">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input placeholder="Search careers, skills, courses..." className="pl-10" />
+                  <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input placeholder="Search careers, skills, courses..." className="h-12 rounded-xl bg-card pl-10 text-sm shadow-sm" />
                 </div>
-                <Button>Search</Button>
+                <Button size="lg" className="h-12 rounded-xl px-6 shadow-sm">
+                  Explore Careers
+                </Button>
               </div>
-              <div className="mt-4 flex flex-wrap gap-2 text-xs text-muted-foreground">
-                Popular:
-                {["Frontend Developer", "Data Analyst", "UX Design"].map(t => (
-                  <Link key={t} to="/explore/frontend-developer" className="rounded-md bg-muted px-2 py-1 hover:bg-muted/80">
-                    {t}
+              <div className="mt-5 flex flex-wrap items-center gap-2">
+                <span className="text-xs text-muted-foreground">Popular:</span>
+                {[
+                  { label: "Frontend Developer", id: "frontend-developer" },
+                  { label: "Data Analyst", id: "data-analyst" },
+                  { label: "UX Designer", id: "ui-ux-designer" },
+                  { label: "Product Manager", id: "product-manager" },
+                ].map(t => (
+                  <Link
+                    key={t.id}
+                    to={`/explore/${t.id}`}
+                    className="rounded-lg border bg-card/60 px-3 py-1.5 text-xs font-medium text-foreground backdrop-blur-sm transition-colors hover:bg-primary/10 hover:text-primary hover:border-primary/20"
+                  >
+                    {t.label}
                   </Link>
                 ))}
               </div>
+
+              {/* Stats row */}
+              <div className="mt-10 flex gap-8 border-t pt-6">
+                {[
+                  { value: "5+", label: "Career Paths" },
+                  { value: "15+", label: "Pathways" },
+                  { value: "50+", label: "Resources" },
+                ].map(stat => (
+                  <div key={stat.label}>
+                    <p className="font-heading text-2xl font-bold text-foreground">{stat.value}</p>
+                    <p className="text-xs text-muted-foreground">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="hidden lg:block">
-              <img src={heroImage} alt="Career pathway visualization" className="w-full rounded-2xl" />
+
+            {/* Right — floating nodes */}
+            <div className="relative hidden h-[480px] lg:block">
+              {floatingNodes.map((node, i) => (
+                <div
+                  key={i}
+                  className={`absolute ${node.x} ${node.y} flex items-center gap-2.5 rounded-xl border ${node.color} px-4 py-3 shadow-lg backdrop-blur-sm`}
+                  style={{ animation: `float ${3 + i * 0.4}s ease-in-out infinite`, animationDelay: node.delay }}
+                >
+                  <node.icon className="h-5 w-5" />
+                  <span className="text-sm font-semibold">{node.label}</span>
+                </div>
+              ))}
+              {/* Connecting lines SVG */}
+              <svg className="absolute inset-0 h-full w-full" viewBox="0 0 600 480" fill="none">
+                <path d="M300 240 Q400 120 480 80" stroke="hsl(var(--primary))" strokeWidth="1.5" strokeDasharray="6 4" opacity="0.2" />
+                <path d="M300 240 Q200 300 150 350" stroke="hsl(var(--secondary))" strokeWidth="1.5" strokeDasharray="6 4" opacity="0.2" />
+                <path d="M300 240 Q450 280 500 340" stroke="hsl(var(--node-course))" strokeWidth="1.5" strokeDasharray="6 4" opacity="0.2" />
+                <path d="M300 240 Q350 180 420 140" stroke="hsl(var(--node-skill))" strokeWidth="1.5" strokeDasharray="6 4" opacity="0.2" />
+                <path d="M300 240 Q380 220 440 210" stroke="hsl(var(--node-pathway))" strokeWidth="1.5" strokeDasharray="6 4" opacity="0.15" />
+                {/* Center node */}
+                <circle cx="300" cy="240" r="8" fill="hsl(var(--primary))" opacity="0.6" />
+                <circle cx="300" cy="240" r="16" fill="none" stroke="hsl(var(--primary))" strokeWidth="1" opacity="0.2" />
+                <circle cx="300" cy="240" r="28" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" opacity="0.1" />
+              </svg>
             </div>
           </div>
         </div>

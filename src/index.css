@@ -134,3 +134,8 @@
   .bg-node-course-soft { background-color: hsl(var(--node-course) / 0.1); }
   .bg-node-cert-soft { background-color: hsl(var(--node-cert) / 0.1); }
 }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
