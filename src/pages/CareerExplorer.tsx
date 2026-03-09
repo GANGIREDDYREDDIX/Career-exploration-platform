@@ -3,14 +3,20 @@ import { Link, useParams } from "react-router-dom";
 import {
   ArrowLeft,
   BarChart3,
+  Briefcase,
   BookOpen,
+  CheckCircle2,
   ChevronRight,
+  ClipboardList,
   Code,
   ExternalLink,
+  GraduationCap,
   Layers,
   Megaphone,
   Palette,
+  Rocket,
   Search,
+  Sparkles,
   TrendingUp,
   Youtube,
 } from "lucide-react";
@@ -20,7 +26,6 @@ import {
   Controls,
   Edge,
   MarkerType,
-  MiniMap,
   Node,
   NodeProps,
   NodeTypes,
@@ -48,6 +53,8 @@ type ExplorerNodeData = {
   label: string;
   type: "root" | "path" | "skill" | "resource";
   pathId?: string;
+  linkedPathId?: string;
+  marker?: string;
   isActive?: boolean;
   isMatched?: boolean;
 };
@@ -79,11 +86,18 @@ const MindMapNode = ({ data }: NodeProps<Node<ExplorerNodeData>>) => {
     <motion.div
       initial={{ opacity: 0.8, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className={`min-w-[150px] rounded-xl border px-3 py-2 text-center shadow-sm ${baseClass} ${data.isActive ? "ring-2 ring-primary/40" : ""} ${data.isMatched ? "shadow-lg" : ""}`}
+      className={`relative min-w-[150px] rounded-xl border px-3 py-2 text-center shadow-sm ${baseClass} ${data.isActive ? "ring-2 ring-primary/40" : ""} ${data.isMatched ? "shadow-lg" : ""}`}
     >
+      {data.marker && (
+        <span className="absolute -left-2 -top-2 inline-flex h-5 w-5 items-center justify-center rounded-full border bg-background text-[10px] font-bold text-foreground">
+          {data.marker}
+        </span>
+      )}
       <Handle type="target" position={Position.Left} className="!h-2 !w-2 !border-0 !bg-primary/70" />
       <p className="text-xs font-semibold md:text-sm">{data.label}</p>
-      {dataType === "path" && <p className="mt-1 text-[10px] opacity-80">Click to open roadmap</p>}
+      {(dataType === "path" || data.linkedPathId) && (
+        <p className="mt-1 text-[10px] opacity-80">Click to open roadmap</p>
+      )}
       <Handle type="source" position={Position.Right} className="!h-2 !w-2 !border-0 !bg-primary/70" />
     </motion.div>
   );
@@ -92,6 +106,8 @@ const MindMapNode = ({ data }: NodeProps<Node<ExplorerNodeData>>) => {
 const nodeTypes: NodeTypes = {
   curriculumNode: MindMapNode,
 };
+
+const singleSelectGroups = new Set(["sem", "internships", "projects", "placements"]);
 
 const CareerExplorer = () => {
   const { careerId } = useParams<{ careerId: string }>();
@@ -102,6 +118,34 @@ const CareerExplorer = () => {
   const [selectedPathId, setSelectedPathId] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState("");
   const [completedCourses, setCompletedCourses] = useState<Set<string>>(new Set());
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, string[]>>({
+    core: [],
+    sem: [],
+    pedagogy: [],
+    certs: [],
+    internships: [],
+    projects: [],
+    placements: [],
+  });
+
+  const toggleOption = (group: keyof typeof selectedOptions, value: string) => {
+    setSelectedOptions((prev) => {
+      const current = prev[group] || [];
+      const exists = current.includes(value);
+
+      if (singleSelectGroups.has(group)) {
+        return {
+          ...prev,
+          [group]: exists ? [] : [value],
+        };
+      }
+
+      return {
+        ...prev,
+        [group]: exists ? current.filter((item) => item !== value) : [...current, value],
+      };
+    });
+  };
 
   const selectedBranch = useMemo<CurriculumBranch | undefined>(
     () => curriculumData.branches.find((b) => b.id === selectedBranchId),
@@ -137,12 +181,37 @@ const CareerExplorer = () => {
   const flowNodes = useMemo<Node<ExplorerNodeData>[]>(() => {
     if (!selectedBranch) return [];
     const query = searchTerm.trim().toLowerCase();
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const pathMarkerMap = new Map<string, string>();
+    const nodePathMap = new Map<string, string>();
+
+    selectedBranch.paths.forEach((path, index) => {
+      pathMarkerMap.set(path.id, alphabet[index] || `${index + 1}`);
+    });
+
+    selectedBranch.mindMapNodes.forEach((node) => {
+      if (node.pathId) nodePathMap.set(node.id, node.pathId);
+    });
+
+    let updated = true;
+    while (updated) {
+      updated = false;
+      selectedBranch.mindMapEdges.forEach((edge) => {
+        const sourcePathId = nodePathMap.get(edge.source);
+        if (sourcePathId && !nodePathMap.has(edge.target)) {
+          nodePathMap.set(edge.target, sourcePathId);
+          updated = true;
+        }
+      });
+    }
 
     return selectedBranch.mindMapNodes.map((node) => {
       const isMatched =
         !query ||
         node.label.toLowerCase().includes(query) ||
         (node.pathId ? selectedBranch.paths.find((p) => p.id === node.pathId)?.title.toLowerCase().includes(query) : false);
+
+      const linkedPathId = node.pathId || nodePathMap.get(node.id);
 
       return {
         id: node.id,
@@ -152,7 +221,9 @@ const CareerExplorer = () => {
           label: node.label,
           type: node.type,
           pathId: node.pathId,
-          isActive: node.pathId === selectedPath?.id,
+          linkedPathId,
+          marker: node.pathId ? pathMarkerMap.get(node.pathId) : undefined,
+          isActive: linkedPathId === selectedPath?.id,
           isMatched,
         },
       };
@@ -196,6 +267,65 @@ const CareerExplorer = () => {
       .filter((section) => section.skills.length > 0 || section.courses.length > 0);
   }, [searchTerm, selectedPath]);
 
+  const summaryData = useMemo(() => {
+    const fallbackSkills = selectedPath?.sections.flatMap((section) => section.skills).slice(0, 6) || [];
+
+    return {
+      packageMin: selectedPath?.packageRange?.min || "₹3 LPA",
+      packageMax: selectedPath?.packageRange?.max || "₹20 LPA",
+      coreCourses: selectedPath?.coreCourses || fallbackSkills,
+      semesterMapping:
+        selectedPath?.semesterMapping || [
+          { semester: "Sem 1-2", focus: "Fundamentals" },
+          { semester: "Sem 3-4", focus: "Core courses" },
+          { semester: "Sem 5-6", focus: "Advanced practice" },
+          { semester: "Sem 7-8", focus: "Internship + placements" },
+        ],
+      pedagogy: selectedPath?.pedagogy || ["Project-based", "Hands-on", "Mentored learning"],
+      certificationCourses: selectedPath?.certificationCourses || selectedPath?.resources.map((r) => r.label).slice(0, 4) || [],
+      internships:
+        selectedPath?.internships || [
+          { tier: "T1", role: "Entry Intern", selectionOption: "Aptitude + basics" },
+          { tier: "T2", role: "Core Intern", selectionOption: "Project + interview" },
+          { tier: "T3", role: "Specialized Intern", selectionOption: "Domain round" },
+        ],
+      projectTracks:
+        selectedPath?.projectTracks ||
+        selectedPath?.resources
+          .filter((resource) => resource.platform === "GitHub")
+          .map((resource, index) => ({
+            title: `Project Track ${index + 1}`,
+            githubUrl: resource.url,
+            selectionOption: index === 0 ? "Starter" : "Advanced",
+          })) || [],
+      placementOpportunities: selectedPath?.placementOpportunities || ["Product companies", "Service companies", "Startups"],
+    };
+  }, [selectedPath]);
+
+  const filteredSummary = useMemo(() => {
+    const query = searchTerm.trim().toLowerCase();
+    if (!query) return summaryData;
+
+    const filterByQuery = (item: string) => item.toLowerCase().includes(query);
+
+    return {
+      ...summaryData,
+      coreCourses: summaryData.coreCourses.filter(filterByQuery),
+      semesterMapping: summaryData.semesterMapping.filter(
+        (item) => filterByQuery(item.semester) || filterByQuery(item.focus),
+      ),
+      pedagogy: summaryData.pedagogy.filter(filterByQuery),
+      certificationCourses: summaryData.certificationCourses.filter(filterByQuery),
+      internships: summaryData.internships.filter(
+        (item) => filterByQuery(item.tier) || filterByQuery(item.role) || filterByQuery(item.selectionOption || ""),
+      ),
+      projectTracks: summaryData.projectTracks.filter(
+        (item) => filterByQuery(item.title) || filterByQuery(item.selectionOption || ""),
+      ),
+      placementOpportunities: summaryData.placementOpportunities.filter(filterByQuery),
+    };
+  }, [searchTerm, summaryData]);
+
   const totalCourses = useMemo(() => {
     if (!selectedPath) return 0;
     return selectedPath.sections.reduce((acc, section) => acc + section.courses.length, 0);
@@ -208,6 +338,11 @@ const CareerExplorer = () => {
   }, [completedCourses, selectedPath]);
 
   const progressValue = totalCourses === 0 ? 0 : Math.round((completedCount / totalCourses) * 100);
+
+  const totalSelectedOptions = useMemo(
+    () => Object.values(selectedOptions).reduce((acc, items) => acc + items.length, 0),
+    [selectedOptions],
+  );
 
   const onToggleCourse = (courseId: string, checked: boolean) => {
     if (!selectedBranch || !selectedPath) return;
@@ -321,13 +456,12 @@ const CareerExplorer = () => {
                   fitView
                   fitViewOptions={{ padding: 0.2 }}
                   onNodeClick={(_, node) => {
-                    const pathId = (node.data as ExplorerNodeData).pathId;
+                    const pathId = (node.data as ExplorerNodeData).linkedPathId;
                     if (pathId) setSelectedPathId(pathId);
                   }}
                   className="rounded-lg bg-muted/20"
                   proOptions={{ hideAttribution: true }}
                 >
-                  <MiniMap zoomable pannable />
                   <Controls />
                   <Background gap={18} size={1} />
                 </ReactFlow>
@@ -436,6 +570,221 @@ const CareerExplorer = () => {
             </Card>
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.12 }}
+          className="mt-4"
+        >
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Curriculum Mapper</CardTitle>
+              <CardDescription>
+                Structured plan for {selectedPath?.title || "selected path"} including core courses, semesters, projects, and placements.
+              </CardDescription>
+              <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                <span className="rounded-full bg-primary/10 px-3 py-1 font-medium text-primary">
+                  {totalSelectedOptions} options selected
+                </span>
+                {Object.entries(selectedOptions).map(([group, values]) =>
+                  values.slice(0, 2).map((value) => (
+                    <span key={`${group}-${value}`} className="rounded-full bg-muted px-2 py-1 text-muted-foreground">
+                      {value}
+                    </span>
+                  )),
+                )}
+              </div>
+            </CardHeader>
+            <CardContent className="grid gap-3 md:grid-cols-3">
+              <div className="rounded-lg border p-3">
+                <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
+                  <Sparkles className="h-4 w-4 text-primary" /> Package Range (Probable)
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {filteredSummary.packageMin} to {filteredSummary.packageMax}
+                </p>
+              </div>
+
+              <div className="rounded-lg border p-3">
+                <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
+                  <BookOpen className="h-4 w-4 text-primary" /> Core Courses
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {filteredSummary.coreCourses.map((course) => (
+                    <button
+                      type="button"
+                      key={course}
+                      onClick={() => toggleOption("core", course)}
+                      className={`rounded-full px-2 py-1 text-xs transition-colors ${
+                        selectedOptions.core.includes(course)
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted hover:bg-muted/70"
+                      }`}
+                    >
+                      {course}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-lg border p-3">
+                <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
+                  <GraduationCap className="h-4 w-4 text-primary" /> Sem Mapping
+                </div>
+                <div className="space-y-1.5 text-xs text-muted-foreground">
+                  {filteredSummary.semesterMapping.map((item) => (
+                    <button
+                      type="button"
+                      key={`${item.semester}-${item.focus}`}
+                      onClick={() => toggleOption("sem", `${item.semester}: ${item.focus}`)}
+                      className={`w-full rounded-md border px-2 py-1 text-left transition-colors ${
+                        selectedOptions.sem.includes(`${item.semester}: ${item.focus}`)
+                          ? "border-primary bg-primary/10 text-foreground"
+                          : "border-transparent hover:border-border hover:bg-muted/40"
+                      }`}
+                    >
+                      <span className="font-semibold text-foreground">{item.semester}:</span> {item.focus}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-lg border p-3">
+                <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
+                  <ClipboardList className="h-4 w-4 text-primary" /> Pedagogy
+                </div>
+                <ul className="space-y-1 text-xs text-muted-foreground">
+                  {filteredSummary.pedagogy.map((item) => (
+                    <li key={item}>
+                      <button
+                        type="button"
+                        onClick={() => toggleOption("pedagogy", item)}
+                        className={`w-full rounded-md px-2 py-1 text-left transition-colors ${
+                          selectedOptions.pedagogy.includes(item)
+                            ? "bg-primary/10 text-foreground"
+                            : "hover:bg-muted/40"
+                        }`}
+                      >
+                        • {item}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-lg border p-3">
+                <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
+                  <BookOpen className="h-4 w-4 text-primary" /> Certification Courses
+                </div>
+                <ul className="space-y-1 text-xs text-muted-foreground">
+                  {filteredSummary.certificationCourses.map((item) => (
+                    <li key={item}>
+                      <button
+                        type="button"
+                        onClick={() => toggleOption("certs", item)}
+                        className={`w-full rounded-md px-2 py-1 text-left transition-colors ${
+                          selectedOptions.certs.includes(item)
+                            ? "bg-primary/10 text-foreground"
+                            : "hover:bg-muted/40"
+                        }`}
+                      >
+                        • {item}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-lg border p-3">
+                <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
+                  <Briefcase className="h-4 w-4 text-primary" /> Internships (T1-T6)
+                </div>
+                <div className="space-y-1 text-xs text-muted-foreground">
+                  {filteredSummary.internships.map((item) => {
+                    const value = `${item.tier} · ${item.role}`;
+                    return (
+                      <button
+                        type="button"
+                        key={`${item.tier}-${item.role}`}
+                        onClick={() => toggleOption("internships", value)}
+                        className={`w-full rounded-md px-2 py-1 text-left transition-colors ${
+                          selectedOptions.internships.includes(value)
+                            ? "bg-primary/10 text-foreground"
+                            : "hover:bg-muted/40"
+                        }`}
+                      >
+                        <span className="font-semibold text-foreground">{item.tier}</span> · {item.role}
+                        {item.selectionOption ? ` · ${item.selectionOption}` : ""}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="rounded-lg border p-3 md:col-span-2">
+                <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
+                  <Code className="h-4 w-4 text-primary" /> Projects (GitHub)
+                </div>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {filteredSummary.projectTracks.map((project) => {
+                    const isSelected = selectedOptions.projects.includes(project.title);
+                    return (
+                    <button
+                      type="button"
+                      key={`${project.title}-${project.githubUrl}`}
+                      onClick={() => toggleOption("projects", project.title)}
+                      className={`rounded-md border p-2 text-left text-xs transition-colors ${
+                        isSelected ? "border-primary bg-primary/10" : "hover:bg-muted/50"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <p className="font-medium text-foreground">{project.title}</p>
+                          <p className="mt-1 text-muted-foreground">{project.selectionOption || "Selection option available"}</p>
+                        </div>
+                        {isSelected && <CheckCircle2 className="h-4 w-4 text-primary" />}
+                      </div>
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-2 inline-flex text-primary underline"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Open GitHub
+                      </a>
+                    </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="rounded-lg border p-3">
+                <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
+                  <Rocket className="h-4 w-4 text-primary" /> Placement Opportunities
+                </div>
+                <ul className="space-y-1 text-xs text-muted-foreground">
+                  {filteredSummary.placementOpportunities.map((item) => (
+                    <li key={item}>
+                      <button
+                        type="button"
+                        onClick={() => toggleOption("placements", item)}
+                        className={`w-full rounded-md px-2 py-1 text-left transition-colors ${
+                          selectedOptions.placements.includes(item)
+                            ? "bg-primary/10 text-foreground"
+                            : "hover:bg-muted/40"
+                        }`}
+                      >
+                        • {item}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
     </div>
   );

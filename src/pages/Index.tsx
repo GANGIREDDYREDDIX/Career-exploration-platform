@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CareerCard from "@/components/career/CareerCard";
 import CategoryChip from "@/components/career/CategoryChip";
+import CareerRoadmapDashboard from "@/components/career/CareerRoadmapDashboard";
 import { careers, categories } from "@/data/mockData";
 
 const steps = [
@@ -129,6 +130,10 @@ const Index = () => {
       </section>
 
       {/* Categories */}
+      <section className="container py-14">
+        <CareerRoadmapDashboard />
+      </section>
+
       <section className="border-t bg-card/50">
         <div className="container py-16">
           <h2 className="font-heading text-2xl font-bold">Browse by Category</h2>

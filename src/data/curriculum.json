@@ -26,6 +26,28 @@
           "id": "cse-web",
           "title": "Web Development Roadmap",
           "description": "Learn frontend + backend skills to build full-stack products.",
+          "packageRange": { "min": "₹3 LPA", "max": "₹25 LPA" },
+          "coreCourses": ["Web Foundations", "Frontend Engineering", "Backend APIs", "System Design Basics"],
+          "semesterMapping": [
+            { "semester": "Sem 1-2", "focus": "Programming fundamentals + problem solving" },
+            { "semester": "Sem 3-4", "focus": "HTML/CSS/JS + DBMS" },
+            { "semester": "Sem 5-6", "focus": "React + Node.js + projects" },
+            { "semester": "Sem 7-8", "focus": "Internship + interview prep + capstone" }
+          ],
+          "pedagogy": ["Project-based learning", "Weekly coding challenges", "Peer review", "Mock interviews"],
+          "certificationCourses": ["Meta Front-End", "Google UX for Developers", "AWS Cloud Practitioner"],
+          "internships": [
+            { "tier": "T1", "role": "Web Intern", "selectionOption": "Resume + basics test" },
+            { "tier": "T2", "role": "Frontend Intern", "selectionOption": "Mini project + interview" },
+            { "tier": "T3", "role": "Full-stack Intern", "selectionOption": "DSA + system basics" },
+            { "tier": "T4", "role": "Product Engineer Intern", "selectionOption": "Project deep-dive" }
+          ],
+          "projectTracks": [
+            { "title": "Portfolio Website", "githubUrl": "https://github.com/topics/portfolio-website", "selectionOption": "Starter" },
+            { "title": "MERN Dashboard", "githubUrl": "https://github.com/topics/mern-stack", "selectionOption": "Intermediate" },
+            { "title": "Realtime Collaboration App", "githubUrl": "https://github.com/topics/realtime-app", "selectionOption": "Advanced" }
+          ],
+          "placementOpportunities": ["Startup Product Teams", "Service Companies", "SaaS Engineering Teams", "Remote Freelance"],
           "resources": [
             { "label": "Meta Front-End (Coursera)", "platform": "Coursera", "url": "https://www.coursera.org/professional-certificates/meta-front-end-developer" },
             { "label": "Traversy Media (YouTube)", "platform": "YouTube", "url": "https://www.youtube.com/@TraversyMedia" },
@@ -136,6 +158,27 @@
           "id": "ece-embedded",
           "title": "Embedded Systems Roadmap",
           "description": "Microcontrollers, RTOS, interfaces, and IoT projects.",
+          "packageRange": { "min": "₹3.5 LPA", "max": "₹18 LPA" },
+          "coreCourses": ["Digital Electronics", "Microcontrollers", "RTOS", "Embedded C"],
+          "semesterMapping": [
+            { "semester": "Sem 1-2", "focus": "Circuit theory + C basics" },
+            { "semester": "Sem 3-4", "focus": "Digital design + microprocessors" },
+            { "semester": "Sem 5-6", "focus": "Embedded C + RTOS + interfacing" },
+            { "semester": "Sem 7-8", "focus": "IoT capstone + internship" }
+          ],
+          "pedagogy": ["Lab-first approach", "Hardware bring-up", "Debugging drills", "Industry mini-projects"],
+          "certificationCourses": ["Embedded Systems Specialization", "ARM Cortex Fundamentals", "IoT Foundation"],
+          "internships": [
+            { "tier": "T1", "role": "Electronics Lab Intern", "selectionOption": "Aptitude + basics" },
+            { "tier": "T2", "role": "Firmware Trainee", "selectionOption": "C + peripherals interview" },
+            { "tier": "T3", "role": "Embedded Developer Intern", "selectionOption": "RTOS + debugging round" }
+          ],
+          "projectTracks": [
+            { "title": "Sensor Logger Firmware", "githubUrl": "https://github.com/topics/embedded-c", "selectionOption": "Starter" },
+            { "title": "RTOS Task Scheduler", "githubUrl": "https://github.com/topics/freertos", "selectionOption": "Intermediate" },
+            { "title": "IoT Telemetry Pipeline", "githubUrl": "https://github.com/topics/iot", "selectionOption": "Advanced" }
+          ],
+          "placementOpportunities": ["Embedded Product Companies", "Automotive Electronics", "IoT Startups", "R&D Labs"],
           "resources": [
             { "label": "Embedded Systems Specialization", "platform": "Coursera", "url": "https://www.coursera.org/specializations/embedded-systems" },
             { "label": "Phil's Lab", "platform": "YouTube", "url": "https://www.youtube.com/@PhilsLab" },
@@ -225,6 +268,27 @@
           "id": "me-cad",
           "title": "CAD + Product Design Roadmap",
           "description": "Design mechanical components and assemblies for production.",
+          "packageRange": { "min": "₹3 LPA", "max": "₹16 LPA" },
+          "coreCourses": ["Engineering Drawing", "CAD Modeling", "Machine Design", "CAE Basics"],
+          "semesterMapping": [
+            { "semester": "Sem 1-2", "focus": "Graphics + workshop practices" },
+            { "semester": "Sem 3-4", "focus": "Mechanics + machine drawing" },
+            { "semester": "Sem 5-6", "focus": "SolidWorks + GD&T + tolerance" },
+            { "semester": "Sem 7-8", "focus": "Industry design project + internship" }
+          ],
+          "pedagogy": ["Design studio workflow", "Case-study driven learning", "Prototype iteration", "Peer design reviews"],
+          "certificationCourses": ["Autodesk CAD/CAM", "SolidWorks Associate", "GD&T Practitioner"],
+          "internships": [
+            { "tier": "T1", "role": "CAD Drafting Intern", "selectionOption": "Drawing test" },
+            { "tier": "T2", "role": "Design Engineer Intern", "selectionOption": "CAD assignment" },
+            { "tier": "T3", "role": "Product Development Intern", "selectionOption": "Portfolio + interview" }
+          ],
+          "projectTracks": [
+            { "title": "Gearbox Assembly Model", "githubUrl": "https://github.com/topics/cad", "selectionOption": "Starter" },
+            { "title": "Sheet Metal Enclosure", "githubUrl": "https://github.com/topics/product-design", "selectionOption": "Intermediate" },
+            { "title": "Thermal CAE Simulation", "githubUrl": "https://github.com/topics/fea", "selectionOption": "Advanced" }
+          ],
+          "placementOpportunities": ["Manufacturing Plants", "Automotive Design Teams", "Industrial Automation Firms", "Core Mechanical SMEs"],
           "resources": [
             { "label": "Autodesk CAD/CAM", "platform": "Coursera", "url": "https://www.coursera.org/specializations/autodesk-cad-cam" },
             { "label": "Learn Engineering", "platform": "YouTube", "url": "https://www.youtube.com/@LearnEngineering" },

@@ -35,6 +35,23 @@ export interface RoadmapSection {
   courses: CurriculumCourse[];
 }
 
+export interface SemesterMappingItem {
+  semester: string;
+  focus: string;
+}
+
+export interface InternshipTierItem {
+  tier: string;
+  role: string;
+  selectionOption?: string;
+}
+
+export interface ProjectTrackItem {
+  title: string;
+  githubUrl: string;
+  selectionOption?: string;
+}
+
 export interface PathRoadmap {
   id: string;
   title: string;
@@ -45,6 +62,17 @@ export interface PathRoadmap {
     url: string;
   }>;
   sections: RoadmapSection[];
+  packageRange?: {
+    min: string;
+    max: string;
+  };
+  coreCourses?: string[];
+  semesterMapping?: SemesterMappingItem[];
+  pedagogy?: string[];
+  certificationCourses?: string[];
+  internships?: InternshipTierItem[];
+  projectTracks?: ProjectTrackItem[];
+  placementOpportunities?: string[];
 }
 
 export interface CurriculumBranch {
