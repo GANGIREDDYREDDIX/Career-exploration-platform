@@ -1,0 +1,291 @@
+{
+  "branches": [
+    {
+      "id": "cse",
+      "name": "CSE",
+      "description": "Computer Science fundamentals with software, data, and cloud pathways.",
+      "mindMapNodes": [
+        { "id": "cse-root", "label": "CSE", "type": "root", "position": { "x": 80, "y": 220 } },
+        { "id": "cse-web", "label": "Web Development Path", "type": "path", "position": { "x": 320, "y": 90 }, "pathId": "cse-web" },
+        { "id": "cse-ai", "label": "AI / ML Path", "type": "path", "position": { "x": 320, "y": 230 }, "pathId": "cse-ai" },
+        { "id": "cse-cloud", "label": "Cloud + DevOps Path", "type": "path", "position": { "x": 320, "y": 370 }, "pathId": "cse-cloud" },
+        { "id": "cse-skill-react", "label": "React", "type": "skill", "position": { "x": 640, "y": 70 } },
+        { "id": "cse-skill-dsa", "label": "DSA", "type": "skill", "position": { "x": 640, "y": 230 } },
+        { "id": "cse-skill-k8s", "label": "Kubernetes", "type": "skill", "position": { "x": 640, "y": 390 } }
+      ],
+      "mindMapEdges": [
+        { "id": "ce1", "source": "cse-root", "target": "cse-web" },
+        { "id": "ce2", "source": "cse-root", "target": "cse-ai" },
+        { "id": "ce3", "source": "cse-root", "target": "cse-cloud" },
+        { "id": "ce4", "source": "cse-web", "target": "cse-skill-react" },
+        { "id": "ce5", "source": "cse-ai", "target": "cse-skill-dsa" },
+        { "id": "ce6", "source": "cse-cloud", "target": "cse-skill-k8s" }
+      ],
+      "paths": [
+        {
+          "id": "cse-web",
+          "title": "Web Development Roadmap",
+          "description": "Learn frontend + backend skills to build full-stack products.",
+          "resources": [
+            { "label": "Meta Front-End (Coursera)", "platform": "Coursera", "url": "https://www.coursera.org/professional-certificates/meta-front-end-developer" },
+            { "label": "Traversy Media (YouTube)", "platform": "YouTube", "url": "https://www.youtube.com/@TraversyMedia" },
+            { "label": "The Odin Project", "platform": "GitHub", "url": "https://github.com/TheOdinProject" }
+          ],
+          "sections": [
+            {
+              "id": "cse-web-1",
+              "title": "Foundations",
+              "summary": "Core web and programming basics.",
+              "skills": ["HTML", "CSS", "JavaScript", "Git"],
+              "courses": [
+                { "id": "c-html", "title": "HTML & CSS Crash Course", "provider": "Coursera", "duration": "12h", "level": "beginner", "platform": "Coursera", "url": "https://www.coursera.org/learn/html-css-javascript-for-web-developers" },
+                { "id": "c-js", "title": "JavaScript Tutorial", "provider": "YouTube", "duration": "20h", "level": "beginner", "platform": "YouTube", "url": "https://www.youtube.com/watch?v=PkZNo7MFNFg" }
+              ]
+            },
+            {
+              "id": "cse-web-2",
+              "title": "Frontend Engineering",
+              "summary": "Modern React stack and UI architecture.",
+              "skills": ["React", "TypeScript", "State Management", "Testing"],
+              "courses": [
+                { "id": "c-react", "title": "React Basics", "provider": "Coursera", "duration": "25h", "level": "intermediate", "platform": "Coursera", "url": "https://www.coursera.org/learn/react-basics" },
+                { "id": "c-ts", "title": "TypeScript Full Course", "provider": "YouTube", "duration": "8h", "level": "intermediate", "platform": "YouTube", "url": "https://www.youtube.com/watch?v=30LWjhZzg50" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cse-ai",
+          "title": "AI / ML Roadmap",
+          "description": "Build foundations in math, Python, machine learning and deep learning.",
+          "resources": [
+            { "label": "Machine Learning by Andrew Ng", "platform": "Coursera", "url": "https://www.coursera.org/learn/machine-learning" },
+            { "label": "3Blue1Brown", "platform": "YouTube", "url": "https://www.youtube.com/@3blue1brown" },
+            { "label": "scikit-learn", "platform": "GitHub", "url": "https://github.com/scikit-learn/scikit-learn" }
+          ],
+          "sections": [
+            {
+              "id": "cse-ai-1",
+              "title": "Math + Python",
+              "summary": "Prerequisites for ML engineering.",
+              "skills": ["Linear Algebra", "Probability", "Python", "NumPy"],
+              "courses": [
+                { "id": "c-linalg", "title": "Linear Algebra for ML", "provider": "Coursera", "duration": "18h", "level": "beginner", "platform": "Coursera", "url": "https://www.coursera.org/specializations/mathematics-machine-learning" },
+                { "id": "c-python-ml", "title": "Python for Data Science", "provider": "YouTube", "duration": "9h", "level": "beginner", "platform": "YouTube", "url": "https://www.youtube.com/watch?v=LHBE6Q9XlzI" }
+              ]
+            },
+            {
+              "id": "cse-ai-2",
+              "title": "Core ML",
+              "summary": "Train and evaluate ML models.",
+              "skills": ["Regression", "Classification", "Model Evaluation", "Feature Engineering"],
+              "courses": [
+                { "id": "c-ml", "title": "Supervised ML", "provider": "Coursera", "duration": "30h", "level": "intermediate", "platform": "Coursera", "url": "https://www.coursera.org/learn/machine-learning" },
+                { "id": "c-sklearn", "title": "scikit-learn Projects", "provider": "GitHub", "duration": "Project-based", "level": "intermediate", "platform": "GitHub", "url": "https://github.com/ageron/handson-ml3" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cse-cloud",
+          "title": "Cloud + DevOps Roadmap",
+          "description": "Deploy and operate applications at scale.",
+          "resources": [
+            { "label": "Google Cloud Fundamentals", "platform": "Coursera", "url": "https://www.coursera.org/learn/gcp-fundamentals" },
+            { "label": "Kunal Kushwaha DevOps", "platform": "YouTube", "url": "https://www.youtube.com/@KunalKushwaha" },
+            { "label": "awesome-devops", "platform": "GitHub", "url": "https://github.com/wmariuss/awesome-devops" }
+          ],
+          "sections": [
+            {
+              "id": "cse-cloud-1",
+              "title": "DevOps Basics",
+              "summary": "CI/CD and containerization essentials.",
+              "skills": ["Linux", "Docker", "GitHub Actions", "CI/CD"],
+              "courses": [
+                { "id": "c-docker", "title": "Docker for Developers", "provider": "Coursera", "duration": "16h", "level": "beginner", "platform": "Coursera", "url": "https://www.coursera.org/learn/docker-for-developers" },
+                { "id": "c-cicd", "title": "CI/CD with GitHub Actions", "provider": "YouTube", "duration": "4h", "level": "intermediate", "platform": "YouTube", "url": "https://www.youtube.com/watch?v=R8_veQiYBjI" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ece",
+      "name": "ECE",
+      "description": "Electronics and communication roadmap with embedded, VLSI, and communication systems.",
+      "mindMapNodes": [
+        { "id": "ece-root", "label": "ECE", "type": "root", "position": { "x": 80, "y": 220 } },
+        { "id": "ece-emb", "label": "Embedded Systems", "type": "path", "position": { "x": 320, "y": 110 }, "pathId": "ece-embedded" },
+        { "id": "ece-vlsi", "label": "VLSI Design", "type": "path", "position": { "x": 320, "y": 230 }, "pathId": "ece-vlsi" },
+        { "id": "ece-comm", "label": "Communication Systems", "type": "path", "position": { "x": 320, "y": 350 }, "pathId": "ece-comm" },
+        { "id": "ece-skill-c", "label": "Embedded C", "type": "skill", "position": { "x": 640, "y": 100 } },
+        { "id": "ece-skill-verilog", "label": "Verilog", "type": "skill", "position": { "x": 640, "y": 230 } },
+        { "id": "ece-skill-signal", "label": "Signal Processing", "type": "skill", "position": { "x": 640, "y": 360 } }
+      ],
+      "mindMapEdges": [
+        { "id": "ee1", "source": "ece-root", "target": "ece-emb" },
+        { "id": "ee2", "source": "ece-root", "target": "ece-vlsi" },
+        { "id": "ee3", "source": "ece-root", "target": "ece-comm" },
+        { "id": "ee4", "source": "ece-emb", "target": "ece-skill-c" },
+        { "id": "ee5", "source": "ece-vlsi", "target": "ece-skill-verilog" },
+        { "id": "ee6", "source": "ece-comm", "target": "ece-skill-signal" }
+      ],
+      "paths": [
+        {
+          "id": "ece-embedded",
+          "title": "Embedded Systems Roadmap",
+          "description": "Microcontrollers, RTOS, interfaces, and IoT projects.",
+          "resources": [
+            { "label": "Embedded Systems Specialization", "platform": "Coursera", "url": "https://www.coursera.org/specializations/embedded-systems" },
+            { "label": "Phil's Lab", "platform": "YouTube", "url": "https://www.youtube.com/@PhilsLab" },
+            { "label": "Arduino", "platform": "GitHub", "url": "https://github.com/arduino" }
+          ],
+          "sections": [
+            {
+              "id": "ece-emb-1",
+              "title": "Microcontroller Basics",
+              "summary": "Get started with firmware development.",
+              "skills": ["C Programming", "GPIO", "UART", "Timers"],
+              "courses": [
+                { "id": "ece-c", "title": "Embedded C Programming", "provider": "Coursera", "duration": "14h", "level": "beginner", "platform": "Coursera", "url": "https://www.coursera.org/learn/embedded-c" },
+                { "id": "ece-arm", "title": "STM32 Beginner Course", "provider": "YouTube", "duration": "7h", "level": "beginner", "platform": "YouTube", "url": "https://www.youtube.com/watch?v=VfbW6vM0QYw" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ece-vlsi",
+          "title": "VLSI Design Roadmap",
+          "description": "Digital design flow from HDL to physical design basics.",
+          "resources": [
+            { "label": "VLSI CAD Part I", "platform": "Coursera", "url": "https://www.coursera.org/learn/vlsi-cad" },
+            { "label": "Neso Academy VLSI", "platform": "YouTube", "url": "https://www.youtube.com/@nesoacademy" },
+            { "label": "OpenROAD", "platform": "GitHub", "url": "https://github.com/The-OpenROAD-Project/OpenROAD" }
+          ],
+          "sections": [
+            {
+              "id": "ece-vlsi-1",
+              "title": "Digital Design",
+              "summary": "Design combinational and sequential logic.",
+              "skills": ["Boolean Logic", "FSM", "Verilog", "Timing"],
+              "courses": [
+                { "id": "ece-verilog", "title": "Verilog HDL Fundamentals", "provider": "Coursera", "duration": "20h", "level": "intermediate", "platform": "Coursera", "url": "https://www.coursera.org/learn/intro-fpga-design-embedded-systems" },
+                { "id": "ece-openlane", "title": "OpenLane Workshop", "provider": "GitHub", "duration": "Project-based", "level": "advanced", "platform": "GitHub", "url": "https://github.com/efabless/openlane2" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ece-comm",
+          "title": "Communication Systems Roadmap",
+          "description": "Signals, modulation techniques, and wireless systems.",
+          "resources": [
+            { "label": "Digital Communications", "platform": "Coursera", "url": "https://www.coursera.org/learn/digital-communications" },
+            { "label": "Signals & Systems", "platform": "YouTube", "url": "https://www.youtube.com/watch?v=Qx6Y7A7w7N8" },
+            { "label": "GNU Radio", "platform": "GitHub", "url": "https://github.com/gnuradio/gnuradio" }
+          ],
+          "sections": [
+            {
+              "id": "ece-comm-1",
+              "title": "Signals and Modulation",
+              "summary": "Understand analog and digital communication principles.",
+              "skills": ["Fourier Transform", "AM/FM", "QPSK", "Channel Capacity"],
+              "courses": [
+                { "id": "ece-sig", "title": "Signals and Systems", "provider": "NPTEL", "duration": "8 weeks", "level": "intermediate", "platform": "NPTEL", "url": "https://nptel.ac.in/courses/108/106/108106004/" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mechanical",
+      "name": "Mechanical",
+      "description": "Mechanical engineering pathways in CAD, manufacturing, and automotive systems.",
+      "mindMapNodes": [
+        { "id": "me-root", "label": "Mechanical", "type": "root", "position": { "x": 80, "y": 220 } },
+        { "id": "me-cad", "label": "CAD + Design", "type": "path", "position": { "x": 320, "y": 110 }, "pathId": "me-cad" },
+        { "id": "me-manufacturing", "label": "Manufacturing", "type": "path", "position": { "x": 320, "y": 230 }, "pathId": "me-manufacturing" },
+        { "id": "me-auto", "label": "Automotive Systems", "type": "path", "position": { "x": 320, "y": 350 }, "pathId": "me-automotive" },
+        { "id": "me-skill-solidworks", "label": "SolidWorks", "type": "skill", "position": { "x": 640, "y": 100 } },
+        { "id": "me-skill-cnc", "label": "CNC", "type": "skill", "position": { "x": 640, "y": 230 } },
+        { "id": "me-skill-ev", "label": "EV Powertrain", "type": "skill", "position": { "x": 640, "y": 360 } }
+      ],
+      "mindMapEdges": [
+        { "id": "me1", "source": "me-root", "target": "me-cad" },
+        { "id": "me2", "source": "me-root", "target": "me-manufacturing" },
+        { "id": "me3", "source": "me-root", "target": "me-auto" },
+        { "id": "me4", "source": "me-cad", "target": "me-skill-solidworks" },
+        { "id": "me5", "source": "me-manufacturing", "target": "me-skill-cnc" },
+        { "id": "me6", "source": "me-auto", "target": "me-skill-ev" }
+      ],
+      "paths": [
+        {
+          "id": "me-cad",
+          "title": "CAD + Product Design Roadmap",
+          "description": "Design mechanical components and assemblies for production.",
+          "resources": [
+            { "label": "Autodesk CAD/CAM", "platform": "Coursera", "url": "https://www.coursera.org/specializations/autodesk-cad-cam" },
+            { "label": "Learn Engineering", "platform": "YouTube", "url": "https://www.youtube.com/@LearnEngineering" },
+            { "label": "FreeCAD", "platform": "GitHub", "url": "https://github.com/FreeCAD/FreeCAD" }
+          ],
+          "sections": [
+            {
+              "id": "me-cad-1",
+              "title": "Design Fundamentals",
+              "summary": "Build drafting and CAD modeling skills.",
+              "skills": ["Engineering Drawing", "GD&T", "SolidWorks", "Tolerance Stack-up"],
+              "courses": [
+                { "id": "me-drawing", "title": "Engineering Drawing Basics", "provider": "YouTube", "duration": "6h", "level": "beginner", "platform": "YouTube", "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+                { "id": "me-cad-coursera", "title": "3D CAD Fundamental", "provider": "Coursera", "duration": "18h", "level": "intermediate", "platform": "Coursera", "url": "https://www.coursera.org/learn/introduction-autodesk-fusion-360" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "me-manufacturing",
+          "title": "Manufacturing Engineering Roadmap",
+          "description": "Production systems, CNC programming, and quality practices.",
+          "resources": [
+            { "label": "Manufacturing Process Control", "platform": "Coursera", "url": "https://www.coursera.org/learn/manufacturing-process-control" },
+            { "label": "MIT Manufacturing", "platform": "YouTube", "url": "https://www.youtube.com/@mit" },
+            { "label": "Awesome CNC", "platform": "GitHub", "url": "https://github.com/attractivechaos/awesome-cnc" }
+          ],
+          "sections": [
+            {
+              "id": "me-manu-1",
+              "title": "Production + Quality",
+              "summary": "Understand manufacturing workflow and QA.",
+              "skills": ["CNC", "Lean", "Six Sigma", "SPC"],
+              "courses": [
+                { "id": "me-lean", "title": "Six Sigma Yellow Belt", "provider": "Coursera", "duration": "12h", "level": "intermediate", "platform": "Coursera", "url": "https://www.coursera.org/specializations/six-sigma-fundamentals" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "me-automotive",
+          "title": "Automotive Systems Roadmap",
+          "description": "Vehicle dynamics, powertrain, and EV technologies.",
+          "resources": [
+            { "label": "Electric Cars Course", "platform": "Coursera", "url": "https://www.coursera.org/learn/electric-cars" },
+            { "label": "Engineering Explained", "platform": "YouTube", "url": "https://www.youtube.com/@EngineeringExplained" },
+            { "label": "Open Source EV", "platform": "GitHub", "url": "https://github.com/openinverter/openinverter" }
+          ],
+          "sections": [
+            {
+              "id": "me-auto-1",
+              "title": "Vehicle + EV Basics",
+              "summary": "Core automotive engineering principles.",
+              "skills": ["Thermodynamics", "Vehicle Dynamics", "Battery Management", "Power Electronics"],
+              "courses": [
+                { "id": "me-ev", "title": "Electric Vehicle Basics", "provider": "Coursera", "duration": "10h", "level": "beginner", "platform": "Coursera", "url": "https://www.coursera.org/learn/electric-cars" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
